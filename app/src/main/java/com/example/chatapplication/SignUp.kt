@@ -1,9 +1,11 @@
 package com.example.chatapplication
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUp : AppCompatActivity() {
@@ -34,6 +36,17 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun signUp(email: String, password: String) {
-        // logic of creating user
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // code for jumping to home
+
+                    val intent = Intent(this@SignUp, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // If sign in fails, display a message to the user.
+                   Toast.makeText(this@SignUp, "Some error occurred", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }
